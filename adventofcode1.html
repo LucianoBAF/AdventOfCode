@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html><head>
+	<meta http-equiv='X-UA-Compatible' content='IE=edge' />
+	<meta http-equiv='Content-Type' content='text/html;charset=UTF-8'/>
+	<title>Advent of code #1 - Luciano Bongiorni</title>
+	
+
+	
+	<script>
+
+		//Há uma lista de coordenadas, começando virado em direção ao norte. 
+		//Essas coordenadas são  indicadas por R ou L, seguido do número de blocos a se andar,
+		//sendo as mesmas separadas por uma vírgula seguida de um espaço
+		var coords = "R4, R3, L3, L2, L1, R1, L1, R2, R3, L5, L5, R4, L4, R2, R4, L3, R3, L3, R3, R4, R2, L1, R2, L3, L2, L1, R3, R5, L1, L4, R2, L4, R3, R1, R2, L5, R2, L189, R5, L5, R52, R3, L1, R4, R5, R1, R4, L1, L3, R2, L2, L3, R4, R3, L2, L5, R4, R5, L2, R2, L1, L3, R3, L4, R4, R5, L1, L1, R3, L5, L2, R76, R2, R2, L1, L3, R189, L3, L4, L1, L3, R5, R4, L1, R1, L1, L1, R2, L4, R2, L5, L5, L5, R2, L4, L5, R4, R4, R5, L5, R3, L1, L3, L1, L1, L3, L4, R5, L3, R5, R3, R3, L5, L5, R3, R4, L3, R3, R1, R3, R2, R2, L1, R1, L3, L3, L3, L1, R2, L1, R4, R4, L1, L1, R3, R3, R4, R1, L5, L2, R2, R3, R2, L3, R4, L5, R1, R4, R5, R4, L4, R1, L3, R1, R3, L2, L3, R1, L2, R3, L3, L1, L3, R4, L4, L5, R3, R5, R4, R1, L2, R3, R5, L5, L4, L1, L1";
+		
+		var direction = 0;//começa virado para o norte (0). Sentido horário: N=0,E=1,S=2,W=3
+		var pos_current = 
+		{
+			H:0, //horizontal
+			V:0  //vertical
+		}
+
+		var temp = "";				//serve para armazanear cada coordenada sem os espaços em branco
+		coords = coords.split(',')	//retorna string com as coordenadas e os espaços, mas sem as vírgulas
+		for(var i=0;i<coords.length;i++)
+		{
+			temp= coords[i].trim();	//remove os espaços em branco, caso haja
+			if(temp[0]==='R')
+				direction = direction >= 3? direction=0 : ++direction; 
+			else
+				direction = direction <= 0? direction=3 : --direction; 
+
+			var passos = Number(temp[1]);		//É preciso armazanear aqui, pois cada posicao do vetor só aceita um caracter
+			if(temp[2] !== undefined)
+			{
+				var numero = temp[1].toString();
+				for(var n=2;n<temp.length;n++)
+				{
+					//passos+=Number(temp[n])*Math.pow(10,n-1);
+					numero = numero.concat(temp[n]);
+				}
+				passos=Number(numero);
+			}
+			switch(direction)
+			{
+				case 0:
+						pos_current['V'] += passos;//Number(temp[1]);
+						break;
+				case 1:
+						pos_current['H'] += passos;//Number(temp[1]);
+						break;
+				case 2:
+						pos_current['V'] -= passos;//Number(temp[1]);
+						break;
+				case 3:
+						pos_current['H'] -= passos;//Number(temp[1]);
+						break;
+			}
+		}
+
+		document.writeln("<h1><i>Day #1 - solution by Luciano Bongiorni</i></h1>");
+		document.write("<h2>");
+		document.writeln("H: "+pos_current['H']+"   V: "+pos_current['V']+"</br>");
+		document.writeln("Answer: "+(Math.abs(pos_current['H'])+Math.abs(pos_current['V'])));
+		
+
+		document.writeln("<br><br><br>Javascript code available by pressing F12 (Google Chrome Developer Tools)");
+		document.write("</h2>");
+	</script>
+	
+
+
+
+	</head>
+	<body class='sapUiBody'>
+		<div id='content'></div>
+	</body>
+</html>
